@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kundalini Yoga - El Maestro de la Era Acuario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-violet: #7c3aed;
+            --soft-violet: #a78bfa;
+            --light-violet: #ede9fe;
+            --cream: #fefce8;
+            --soft-cream: #fef9c3;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, #fefce8 0%, #ede9fe 50%, #f5f3ff 100%);
+            min-height: 100vh;
+        }
+        .title-font { font-family: 'Cormorant Garamond', serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+        }
+        .timer-display {
+            font-family: 'Cormorant Garamond', serif;
+            text-shadow: 0 2px 10px rgba(124, 58, 237, 0.3);
+        }
+        .breathing-circle { animation: breathe 4s ease-in-out infinite; }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        .kriya-card { transition: all 0.3s ease; }
+        .kriya-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(124, 58, 237, 0.15);
+        }
+        .hidden-view { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .exercise-number {
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f3ff; }
+        ::-webkit-scrollbar-thumb { background: #a78bfa; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
+        
+        /* Dropdown styles */
+        .dropdown-menu {
+            transform-origin: top right;
+            transition: all 0.2s ease-out;
+        }
+        .dropdown-menu.hidden-dropdown {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        .dropdown-menu.visible-dropdown {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        
+        /* Pulse animation for active exercise */
+        .pulse-active {
+            animation: pulse-border 2s ease-in-out infinite;
+        }
+        @keyframes pulse-border {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(124, 58, 237, 0); }
+        }
+        
+        /* Rest Mode Styles */
+        .rest-mode .breathing-circle {
+            background: linear-gradient(to bottom right, #86efac, #3b82f6); 
+        }
+        .rest-mode #timerCircle {
+            stroke: #10b981;
+        }
+        .rest-quote {
+            font-style: italic;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+    <!-- HEADER -->
+    <header class="glass-card sticky top-0 z-50 px-4 py-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="title-font text-xl font-bold text-violet-900">Kundalini Yoga</h1>
+                    <p class="text-xs text-violet-600">El Maestro de la Era Acuario</p>
+                </div>
+            </div>
+            
+            <!-- Dropdown Menu for Kriyas -->
+            <div class="relative" id="kriyaDropdownContainer">
+                <button id="kriyaDropdownBtn" onclick="toggleDropdown()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 text-violet-700 text-sm font-medium hover:bg-violet-200 transition">
+                    <span>Seleccionar Kriya</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div id="kriyaDropdownMenu" class="dropdown-menu hidden-dropdown absolute right-0 mt-2 w-72 max-h-96 overflow-y-auto glass-card rounded-xl shadow-xl z-50">
+                    <div class="p-2" id="dropdownKriyaList">
+                        <!-- Kriya items will be generated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        
+        <!-- VIEW: MAIN MENU -->
+        <div id="mainMenuView" class="fade-in">
+            <div class="text-center mb-10">
+                <h2 class="title-font text-4xl md:text-5xl font-bold text-violet-900 mb-4">
+                    Práctica de Kriyas
+                </h2>
+                <p class="text-violet-700 max-w-2xl mx-auto text-lg">
+                    Selecciona una Kriya para comenzar tu práctica.
+                </p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="max-w-xl mx-auto mb-8">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="Buscar Kriyas..." 
+                        class="w-full px-6 py-4 rounded-full border-2 border-violet-200 bg-white/80 focus:border-violet-500 focus:outline-none text-violet-900 placeholder-violet-400 transition">
+                    <svg class="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Kriyas Grid -->
+            <div id="kriyasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Kriya cards will be generated by JS -->
+            </div>
+        </div>
+
+        <!-- VIEW: LEVEL SELECTION -->
+        <div id="levelSelectionView" class="hidden-view fade-in">
+            <div class="max-w-2xl mx-auto">
+                <div class="text-center mb-10">
+                    <h2 id="selectedKriyaTitle" class="title-font text-3xl font-bold text-violet-900 mb-2"></h2>
+                    <p class="text-violet-600">Selecciona tu nivel de práctica</p>
+                    <p class="text-sm text-violet-500 mt-2">Determina la duración de los ejercicios y los descansos</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <button onclick="selectLevel('principiante')" class="glass-card p-6 rounded-2xl text-center hover:shadow-xl transition group">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center group-hover:scale-110 transition">
+                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-violet-900 mb-2">Principiante</h3>
+                        <p class="text-sm text-violet-600 mb-1">33% del tiempo</p>
+                        <p class="text-xs text-green-600 font-semibold mb-3">1 min descanso</p>
+                        <div class="text-xs text-violet-500">
+                            <p>Ideal para comenzar</p>
+                        </div>
+                    </button>
+
+                    <button onclick="selectLevel('intermedio')" class="glass-card p-6 rounded-2xl text-center hover:shadow-xl transition group">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-100 flex items-center justify-center group-hover:scale-110 transition">
+                            <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-violet-900 mb-2">Intermedio</h3>
+                        <p class="text-sm text-violet-600 mb-1">50% del tiempo</p>
+                        <p class="text-xs text-amber-600 font-semibold mb-3">1 min 30s descanso</p>
+                        <div class="text-xs text-violet-500">
+                            <p>Para practicantes regulares</p>
+                        </div>
+                    </button>
+
+                    <button onclick="selectLevel('experto')" class="glass-card p-6 rounded-2xl text-center hover:shadow-xl transition group">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-violet-100 flex items-center justify-center group-hover:scale-110 transition">
+                            <svg class="w-8 h-8 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-violet-900 mb-2">Experto</h3>
+                        <p class="text-sm text-violet-600 mb-1">100% del tiempo</p>
+                        <p class="text-xs text-violet-600 font-semibold mb-3">2 min descanso</p>
+                        <div class="text-xs text-violet-500">
+                            <p>Práctica completa</p>
+                        </div>
+                    </button>
+                </div>
+
+                <button onclick="showMainMenu()" class="mt-8 mx-auto block px-6 py-3 rounded-full text-violet-600 hover:bg-violet-100 transition">
+                    ← Cancelar y volver
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW: KRIYA PRACTICE -->
+        <div id="kriyaPracticeView" class="hidden-view fade-in">
+            <!-- Progress Bar -->
+            <div class="mb-6">
+                <div class="flex justify-between text-sm text-violet-600 mb-2">
+                    <span>Ejercicio <span id="currentExerciseNum">1</span> de <span id="totalExercises">10</span></span>
+                    <span id="levelIndicator">Nivel: Principiante</span>
+                </div>
+                <div class="h-2 bg-violet-100 rounded-full overflow-hidden">
+                    <div id="progressBar" class="h-full bg-gradient-to-r from-violet-500 to-purple-500 transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Rest Mode Indicator -->
+            <div id="restIndicator" class="hidden-view mb-4 text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-medium">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>Periodo de Descanso e Integración</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Left: Exercise Info -->
+                <div id="exerciseCard" class="glass-card rounded-2xl p-6 pulse-active">
+                    <div class="flex items-start gap-4 mb-6">
+                        <div id="exerciseNumberContainer" class="exercise-number w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                            <span id="exerciseNumber">1</span>
+                        </div>
+                        <div>
+                            <h3 id="exerciseName" class="title-font text-2xl font-bold text-violet-900 mb-2"></h3>
+                            <span id="exerciseTime" class="inline-block px-3 py-1 rounded-full bg-violet-100 text-violet-700 text-sm font-medium"></span>
+                        </div>
+                    </div>
+
+                    <!-- Exercise Image Placeholder -->
+                    <div class="aspect-video bg-gradient-to-br from-violet-50 to-purple-50 rounded-xl flex items-center justify-center mb-6 border-2 border-dashed border-violet-200">
+                        <img id="exerciseImage" src="" alt="Postura" class="max-h-full object-contain hidden">
+                        <div id="exerciseImagePlaceholder" class="text-center p-8">
+                            <svg class="w-16 h-16 mx-auto text-violet-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            <p class="text-violet-400 text-sm">Imagen de la postura</p>
+                        </div>
+                    </div>
+
+                    <div class="prose prose-violet max-w-none">
+                        <p id="exerciseInstructions" class="text-violet-800 leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- Right: Timer -->
+                <div id="timerCard" class="glass-card rounded-2xl p-6 flex flex-col items-center justify-center transition-colors duration-500">
+                    <!-- Breathing Animation -->
+                    <div class="relative mb-8">
+                        <div class="breathing-circle w-48 h-48 rounded-full bg-gradient-to-br from-violet-200 to-purple-200 opacity-50 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                        <div class="breathing-circle w-40 h-40 rounded-full bg-gradient-to-br from-violet-300 to-purple-300 opacity-60 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="animation-delay: 0.5s"></div>
+                        
+                        <!-- Timer Circle -->
+                        <div class="relative w-36 h-36 rounded-full bg-white shadow-xl flex items-center justify-center">
+                            <svg class="absolute w-full h-full -rotate-90">
+                                <circle cx="72" cy="72" r="66" stroke="#ede9fe" stroke-width="6" fill="none"/>
+                                <circle id="timerCircle" cx="72" cy="72" r="66" stroke="#7c3aed" stroke-width="6" fill="none" 
+                                    stroke-dasharray="415" stroke-dashoffset="0" stroke-linecap="round" class="transition-all duration-1000"/>
+                            </svg>
+                            <div class="text-center">
+                                <div id="timerDisplay" class="timer-display text-4xl font-bold text-violet-900">00:00</div>
+                                <div id="timerStatus" class="text-xs text-violet-500 mt-1">Listo</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+                        <button id="btnStart" onclick="startExercise()" class="btn-primary text-white py-4 px-6 rounded-xl font-semibold flex flex-col items-center gap-1">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-sm">INICIAR</span>
+                        </button>
+
+                        <button id="btnPause" onclick="pauseExercise()" disabled class="bg-gray-200 text-gray-400 py-4 px-6 rounded-xl font-semibold flex flex-col items-center gap-1 cursor-not-allowed">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-sm">PAUSAR</span>
+                        </button>
+                    </div>
+
+                    <!-- Footer Info (Dynamic) -->
+                    <div class="mt-6 text-center w-full px-2">
+                        <div class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-violet-50 border border-violet-100 w-full min-h-[60px]">
+                            <svg class="w-4 h-4 text-violet-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                            <span id="activeStatusText" class="text-sm text-violet-700 font-medium italic">
+                                <!-- Dynamic Text Here -->
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise List Preview -->
+            <div class="mt-8 glass-card rounded-2xl p-6">
+                <h4 class="font-bold text-violet-900 mb-4">Ejercicios de esta Kriya</h4>
+                <div id="exerciseList" class="space-y-2 max-h-48 overflow-y-auto">
+                    <!-- Exercise items will be generated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: COMPLETION -->
+        <div id="completionView" class="hidden-view fade-in">
+            <div class="max-w-xl mx-auto text-center">
+                <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <h2 class="title-font text-4xl font-bold text-violet-900 mb-4">¡Kriya Completada!</h2>
+                <p class="text-violet-700 mb-8">Has completado tu práctica. Tómate un momento para sentir la energía en tu cuerpo.</p>
+                
+                <div class="glass-card rounded-2xl p-6 mb-8">
+                    <h3 class="font-bold text-violet-900 mb-4">Resumen</h3>
+                    <div class="grid grid-cols-2 gap-4 text-left">
+                        <div>
+                            <p class="text-sm text-violet-500">Kriya</p>
+                            <p id="summaryKriya" class="font-medium text-violet-900"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-500">Nivel</p>
+                            <p id="summaryLevel" class="font-medium text-violet-900"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-500">Ejercicios</p>
+                            <p id="summaryExercises" class="font-medium text-violet-900"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-500">Tiempo total</p>
+                            <p id="summaryTime" class="font-medium text-violet-900"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="showMainMenu()" class="btn-primary text-white px-8 py-4 rounded-xl font-semibold">
+                    Volver al Menú Principal
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto py-6 text-center text-violet-500 text-sm">
+        <p>Basado en "El Maestro de la Era Acuario" - Manual de Yoga</p>
+        <p class="mt-1">© Yogi Bhajan 2006 - KRI</p>
+    </footer>
+
+    <script>
+
+        // ============================================
+        // BASE DE DATOS DE KRIYAS
+        // ============================================
+        const kriyasDB = [
+            {
+                id: "despierta-diez-cuerpos",
+                title: "Despierta a tus Diez Cuerpos",
+                subtitle: "Kriya para activar todos los cuerpos sutiles",
+                description: "Esta kriya trabaja sobre los diez cuerpos: Alma, Mente negativa, Mente positiva, Mente neutral, Cuerpo físico, Línea de arco, Cuerpo áurico, Cuerpo pránico, Cuerpo sutil y Cuerpo radiante.",
+                benefits: ["Equilibra todos los cuerpos sutiles", "Aumenta la energía", "Mejora la claridad mental"],
+                exercises: [
+                    { number: 1, name: "Postura de estiramiento", baseTime: 180, instructions: "Tiéndete boca arriba con los brazos a los lados del cuerpo. Levanta la cabeza, las piernas y las manos 15 cm. Las palmas se ven, ligeramente, una a la otra sobre las caderas para crear energía a través del punto del ombligo. Apunta los pies, mantén tus ojos enfocados en las puntas de los dedos gordos y haz respiración de fuego." },
+                    { number: 2, name: "Nariz a las rodillas", baseTime: 180, instructions: "Trae las rodillas al pecho con los brazos envueltos alrededor de ellas. Mete la nariz entre las rodillas y comienza una respiración de fuego." },
+                    { number: 3, name: "Erradicador de ego", baseTime: 180, instructions: "Siéntate en postura de célibe o en postura fácil. Levanta los brazos a un ángulo de 60°. Enrosca las yemas de los dedos hacia los montes de las palmas. Los pulgares se apuntan entre sí por encima de la cabeza. Con los ojos cerrados, concéntrate por arriba de la cabeza y haz respiración de fuego." },
+                    { number: 4, name: "Estiramiento del nervio de la vida (izquierda)", baseTime: 180, instructions: "Siéntate con las piernas estiradas y abiertas, ampliamente. Con los brazos por arriba de la cabeza, inhala. Luego, exhala, estírate hacia abajo y toma los dedos del pie izquierdo. Inhala, sube de manera recta." },
+                    { number: 5, name: "Estiramiento del nervio de la vida (derecha)", baseTime: 180, instructions: "Continúa sentado con las piernas abiertas y estiradas. Sostente de los dedos de ambos pies, exhala mientras te estiras hacia abajo y llevas la frente al suelo. Luego, inhala a medida que subes." },
+                    { number: 6, name: "Flexiones espinales (paseo en camello) - Variante A", baseTime: 180, instructions: "Siéntate en postura fácil. Tómate de las espinillas con ambas manos. Inhala. Flexiona la columna hacia el frente y balancéate hacia delante sobre los glúteos. Exhala, flexiona la columna y balancéate sobre los glúteos hacia atrás." },
+                    { number: 7, name: "Flexiones espinales (paseo en camello) - Variante B", baseTime: 180, instructions: "Siéntate sobre los talones. Coloca las manos sobre los muslos. Flexiona la columna hacia delante en la inhalación y hacia atrás en la exhalación. Concéntrate en el tercer ojo." },
+                    { number: 8, name: "Giros espinales", baseTime: 180, instructions: "Todavía sobre los talones, toma los hombros con los cuatro dedos hacia el frente y los pulgares por detrás. Inhala y gira hacia la izquierda, exhala y gira hacia la derecha. Mantén los codos elevados y paralelos al suelo." },
+                    { number: 9, name: "Rotación de hombros con mudra", baseTime: 180, instructions: "Toma los hombros como en el ejercicio anterior. Inhala y levanta los codos para que las partes posteriores de las muñecas se toquen por detrás del cuello. Exhala y baja los codos a la altura de los hombros, y repite." },
+                    { number: 10, name: "Bombeo con brazos", baseTime: 180, instructions: "Entrelaza los dedos en mudra de Venus. Inhala y estira los brazos por arriba de la cabeza, luego, exhala y trae las manos de vuelta al regazo." },
+                    { number: 11, name: "Levantamiento de hombros alternado", baseTime: 120, instructions: "Siéntate en postura fácil con las manos sobre las rodillas. Inhala y alza el hombro izquierdo. Exhala y alza el hombro derecho mientras bajas el hombro izquierdo." },
+                    { number: 12, name: "Levantamiento de hombros", baseTime: 60, instructions: "Inhala y sube ambos hombros, exhala y bájalos." },
+                    { number: 13, name: "Giros de cuello", baseTime: 120, instructions: "Permanece en postura fácil con las manos sobre las rodillas. Inhala y gira tu cabeza a la izquierda, exhala y gírala hacia la derecha." },
+                    { number: 14, name: "Postura de rana", baseTime: 180, instructions: "Siéntate en cuclillas, de tal modo que los glúteos estén sobre los talones. Los talones se tocan y están arriba del suelo. Inhala, estira las piernas y mantén los dedos en el suelo. Exhala y vuelve en cuclillas." },
+                    { number: 15, name: "Relajación profunda", baseTime: 300, instructions: "Relájate profundamente boca arriba. Cubrete el cuerpo con una manta para evitar que te enfríes." }
+                ]
+            },
+            {
+                id: "serie-basica-espinal",
+                title: "Serie Básica para la Energía Espinal",
+                subtitle: "Para la flexibilidad y vitalidad de la columna",
+                description: "Esta serie trabaja desde la base hasta el tope de la columna, sistemáticamente. Todas las 26 vértebras reciben estimulación y todos los chakras reciben una ráfaga de energía.",
+                benefits: ["Flexibilidad de la columna", "Equilibra los chakras", "Mejora la circulación del líquido raquídeo"],
+                exercises: [
+                    { number: 1, name: "Flexiones espinales (Variante A)", baseTime: 180, instructions: "Siéntate en postura fácil. Toma los tobillos con las dos manos e inhala profundamente. Flexiona la columna hacia delante y levanta el pecho. En la exhalación, flexiona la columna hacia atrás." },
+                    { number: 2, name: "Flexiones espinales (Variante B)", baseTime: 180, instructions: "Siéntate sobre los talones. Coloca las manos sobre los muslos. Flexiona la columna hacia delante con la inhalación, hacia atrás con la exhalación. Mentalmente, vibra Sat en la inhalación y Nam en la exhalación." },
+                    { number: 3, name: "Giros espinales", baseTime: 180, instructions: "En postura fácil, toma los hombros con el pulgar hacia atrás y los otros dedos hacia delante. Inhala mientras giras la cabeza y el torso hacia la izquierda. Exhala mientras giras a la derecha." },
+                    { number: 4, name: "Cerradura de oso", baseTime: 180, instructions: "Entrelaza los dedos en cerradura de oso al centro del corazón. Mueve los codos con un movimiento de sube y baja. La respiración es larga y profunda." },
+                    { number: 5, name: "Flexiones espinales (Variante C)", baseTime: 180, instructions: "En postura fácil, toma las rodillas firmemente. Mantén los codos rectos, comienza a flexionar la parte superior de la columna. Inhala hacia delante, exhala hacia atrás." },
+                    { number: 6, name: "Levantamiento de hombros", baseTime: 120, instructions: "Sube los hombros al inhalar, bájalos al exhalar. Realiza esto por menos de 2 minutos. Inhala y sostén 15 segundos." },
+                    { number: 7, name: "Círculos con el cuello", baseTime: 60, instructions: "En círculos, rota el cuello lentamente hacia la derecha 5 veces. Luego, hacia la izquierda 5 veces. Inhala y endereza la cabeza." },
+                    { number: 8, name: "Cerradura de oso (nivel garganta)", baseTime: 120, instructions: "Entrelaza los dedos en cerradura de oso al nivel de la garganta. Inhala, aplica mulbandh. Exhala, aplica mulbandh. Luego, levanta las manos por arriba de la cabeza." },
+                    { number: 9, name: "Sat Kriya", baseTime: 180, instructions: "Siéntate sobre los talones con los brazos extendidos arriba de la cabeza. Entrelaza los dedos excepto los dedos índices. Di SAT y mete el punto del ombligo. Di NAM y relájalo." },
+                    { number: 10, name: "Relajación completa", baseTime: 900, instructions: "Relájate completamente, boca arriba durante 15 minutos." }
+                ]
+            },
+            {
+                id: "flexibilidad-columna",
+                title: "La Flexibilidad y la Columna",
+                subtitle: "Serie avanzada para la columna vertebral",
+                description: "Este es un ejemplo de serie de ejercicios que no se daría en una clase ordinaria de Kundalini Yoga. Es para estudiantes que han adquirido un grado moderado de flexibilidad y coordinación.",
+                benefits: ["Flexibilidad avanzada", "Elimina toxinas del tejido muscular", "Alinea la columna"],
+                exercises: [
+                    { number: 1, name: "Postura de estiramiento", baseTime: 180, instructions: "Tiéndete boca arriba. Levanta la cabeza, las piernas y los brazos 15 cm del suelo. Las palmas se ven, ligeramente, una a la otra sobre las caderas. Apunta los pies y haz respiración de fuego." },
+                    { number: 2, name: "Nariz a las rodillas", baseTime: 180, instructions: "Trae las rodillas al pecho con los brazos envueltos alrededor de ellas. Mete la nariz entre las rodillas y haz respiración de fuego." },
+                    { number: 3, name: "Erradicador de ego", baseTime: 180, instructions: "Siéntate en postura fácil. Levanta los brazos a 60°. Enrosca las yemas de los dedos hacia los montes de las palmas. Los pulgares se apuntan entre sí por encima de la cabeza." },
+                    { number: 4, name: "Estiramiento del nervio de la vida (izquierda)", baseTime: 180, instructions: "Siéntate con las piernas estiradas y abiertas. Con los brazos por arriba de la cabeza, inhala. Exhala, estírate hacia abajo y toma los dedos del pie izquierdo." },
+                    { number: 5, name: "Estiramiento del nervio de la vida (derecha)", baseTime: 180, instructions: "Continúa sentado con las piernas abiertas. Sostente de los dedos de ambos pies, exhala mientras te estiras hacia abajo y llevas la frente al suelo." },
+                    { number: 6, name: "Flexiones espinales (paseo en camello)", baseTime: 180, instructions: "Siéntate en postura fácil. Tómate de las espinillas. Inhala, flexiona la columna hacia el frente y balancéate hacia delante sobre los glúteos." },
+                    { number: 7, name: "Flexiones espinales sobre talones", baseTime: 180, instructions: "Siéntate sobre los talones. Coloca las manos sobre los muslos. Flexiona la columna hacia delante en la inhalación y hacia atrás en la exhalación." },
+                    { number: 8, name: "Estiramiento del nervio de la vida (alternado)", baseTime: 180, instructions: "Siéntate y extiende las piernas hacia enfrente, sepáralas ampliamente. Continúa alternando el estiramiento 25 veces en cada lado." },
+                    { number: 9, name: "Estiramiento hacia el frente", baseTime: 180, instructions: "Aún sentado, junta las piernas mientras permaneces sosteniéndote de los dedos de los pies. Continúa este movimiento de bombeo 25 veces." },
+                    { number: 10, name: "Postura de arado", baseTime: 300, instructions: "Tiéndete boca arriba. Lentamente, eleva las piernas por encima de la cabeza hasta que toquen el suelo. Relájate en esta postura durante 5 minutos." },
+                    { number: 11, name: "Postura de vela", baseTime: 300, instructions: "Entra en postura de vela: levanta las piernas hacia el techo. Sostén la columna de manera perpendicular al suelo con las manos. Sostén de 3 a 5 minutos." },
+                    { number: 12, name: "Postura de arado alternada", baseTime: 180, instructions: "Entra a postura de arado con los brazos sobre el suelo. Alterna de postura de arado a estar tendido boca arriba. Continúa 50 veces completas." },
+                    { number: 13, name: "Sat Kriya", baseTime: 300, instructions: "Siéntate sobre los talones con los brazos por encima de la cabeza. Entrelaza los dedos, excepto los índices. Di SAT y mete el punto del ombligo, di NAM y relájalo." },
+                    { number: 14, name: "Guru Pranan", baseTime: 1860, instructions: "Inclínate hacia delante en guru pranam. Coloca la frente en el suelo y estira los brazos por arriba de la cabeza. Medita en el punto del entrecejo durante 31 minutos." },
+                    { number: 15, name: "Postura fácil con brazos", baseTime: 300, instructions: "Siéntate en postura fácil. Inhala y levanta ambos brazos por encima de la cabeza. Exhala y baja los brazos. Continúa durante 5 minutos." },
+                    { number: 16, name: "Postura de cuervo y sentadillas", baseTime: 180, instructions: "Ponte de pie y extiende los brazos hacia delante. Comienza a hacer 25 sentadillas profundas, mantén la columna recta." },
+                    { number: 17, name: "Gato-vaca", baseTime: 300, instructions: "Apóyate sobre tus manos y rodillas. En la inhalación, arquea la columna hacia abajo. En la exhalación, arquea la columna hacia arriba. Continúa durante 5 minutos." },
+                    { number: 18, name: "Relajación profunda", baseTime: 1800, instructions: "Relájate sobre tu espalda, profundamente, de 15 a 30 minutos. Cúbrete el cuerpo con una manta." }
+                ]
+            },
+            {
+                id: "kriya-elevacion",
+                title: "Kriya para la Elevación",
+                subtitle: "Afinación y equilibrio de chakras",
+                description: "Esta fácil serie de ejercicios es excelente como afinación. Sistemáticamente, ejercita la columna y ayuda en la circulación del prana para equilibrar los chakras.",
+                benefits: ["Equilibra los chakras", "Aumenta la energía pránica", "Prepara para la meditación"],
+                exercises: [
+                    { number: 1, name: "Erradicador de ego", baseTime: 180, instructions: "Siéntate en postura fácil. Levanta los brazos a un ángulo de 60°. Enrosca las yemas de los dedos hacia los montes de las palmas. Los pulgares apuntan uno al otro por encima." },
+                    { number: 2, name: "Flexiones espinales", baseTime: 180, instructions: "En postura fácil, toma las espinillas con ambas manos. Al inhalar, flexiona la columna hacia el frente. Al exhalar, flexiona la columna hacia atrás." },
+                    { number: 3, name: "Giros espinales", baseTime: 240, instructions: "En postura fácil, toma los hombros con los pulgares por detrás y los dedos al frente. Inhala mientras giras la cabeza y el torso hacia la izquierda. Exhala mientras giras a la derecha." },
+                    { number: 4, name: "Estiramiento frontal del nervio de la vida", baseTime: 180, instructions: "Estira ambas piernas hacia enfrente. Toma los dedos de los pies con la cerradura de dedos. Continúa con respiración profunda y poderosa de 1 a 3 minutos." },
+                    { number: 5, name: "Maha Mudra modificado", baseTime: 120, instructions: "Siéntate sobre el talón derecho con la pierna izquierda extendida hacia delante. Toma el dedo gordo del pie izquierdo con ambas manos. Mantén esa postura con respiración de fuego de 1 a 2 minutos." },
+                    { number: 6, name: "Estiramiento del nervio de la vida (serie completa)", baseTime: 180, instructions: "Extiende las piernas de manera amplia. Continúa con respiración poderosa de 1 a 2 minutos. Este ejercicio desarrolla la flexibilidad del sacro y de la parte baja de la columna." },
+                    { number: 7, name: "Postura de cobra", baseTime: 180, instructions: "Tiéndete boca abajo con las palmas en el suelo debajo de los hombros. Inhala hacia la postura de cobra: arquea la columna vértebra por vértebra." },
+                    { number: 8, name: "Levantamiento de hombros", baseTime: 120, instructions: "Siéntate en postura fácil. Coloca las manos en las rodillas. Inhala y sube los hombros hacia las orejas. Exhala y deja caer los hombros." },
+                    { number: 9, name: "Círculos con el cuello", baseTime: 240, instructions: "Siéntate en postura fácil. Comienza a hacer círculos con el cuello en el sentido de las manecillas del reloj. Continúa de 1 a 2 minutos. Luego, invierte la dirección." },
+                    { number: 10, name: "Sat Kriya", baseTime: 420, instructions: "Siéntate sobre los talones con los brazos por encima de la cabeza. Entrelaza los dedos, excepto los índices. Canta SAT NAAM de manera enfática. Continúa de 3 a 7 minutos." },
+                    { number: 11, name: "Relajación e integración", baseTime: 600, instructions: "Relájate en postura fácil o sobre la espalda, con los brazos a los lados y las palmas hacia arriba." }
+                ]
+            },
+            {
+                id: "nabhi-kriya",
+                title: "Nabhi Kriya",
+                subtitle: "Para el área digestiva y el plexo solar",
+                description: "Nabhi se refiere al plexo nervioso alrededor del punto del ombligo. Esta serie se enfoca en desarrollar la fuerza del punto del ombligo.",
+                benefits: ["Fortalece el área abdominal", "Activa el tercer chakra", "Mejora la digestión"],
+                exercises: [
+                    { number: 1, name: "Levantamiento alternado de piernas", baseTime: 600, instructions: "Sobre la espalda, inhala y levanta la pierna derecha a 90 grados. Exhala y bájala. Repite con la pierna izquierda. Continúa durante 10 minutos." },
+                    { number: 2, name: "Levantamiento de piernas", baseTime: 300, instructions: "Sin pausar, levanta ambas piernas a 90 grados en la inhalación y bájalas en la exhalación. Mantén los brazos estirados hacia arriba." },
+                    { number: 3, name: "Rodillas al pecho", baseTime: 300, instructions: "Dobla las rodillas y abrázalas contra el pecho, permite a la cabeza relajarse atrás. Descansa en esta posición durante 5 minutos." },
+                    { number: 4, name: "Extensión de piernas y brazos", baseTime: 900, instructions: "A partir de la posición 3, inhala, abre los brazos hacia los lados y extiende las piernas hacia delante a 60 grados. Exhala y regresa. Continúa durante 15 minutos." },
+                    { number: 5, name: "Levantamiento de piernas (variante)", baseTime: 180, instructions: "Sobre la espalda, trae la rodilla izquierda al pecho, alza la pierna derecha a 90 grados y bájala. Cambia de pierna y repite." },
+                    { number: 6, name: "Inclinaciones hacia enfrente", baseTime: 180, instructions: "Ponte de pie, erguido. Levanta los brazos encima de la cabeza. Exhala a medida que te inclinas hacia enfrente para tocar el suelo." },
+                    { number: 7, name: "Relajación", baseTime: 900, instructions: "Relájate totalmente o medita de 10 a 15 minutos." }
+                ]
+            },
+            {
+                id: "nabhi-prana-apana",
+                title: "Nabhi Kriya para Prana y Apana",
+                subtitle: "Equilibrio energético del tercer chakra",
+                description: "Este kriya equilibra prana y apana al concentrarse en el tercer chakra, en el punto del ombligo y, luego, en el centro del corazón.",
+                benefits: ["Equilibra prana y apana", "Fuerza general", "Desarrolla el flujo curativo"],
+                exercises: [
+                    { number: 1, name: "Variación de estiramiento del nervio de la vida", baseTime: 120, instructions: "Siéntate con la pierna derecha estirada hacia enfrente. Toma el dedo gordo del pie derecho con los pulgares de las dos manos. Continúa de 1 a 2 minutos." },
+                    { number: 2, name: "Patear glúteos", baseTime: 180, instructions: "Tiéndete boca arriba con tus brazos a los lados. Trae las rodillas al pecho y comienza a patear, alternadamente, los glúteos con los talones." },
+                    { number: 3, name: "Contracción-extensión de piernas", baseTime: 180, instructions: "Permanece sobre la espalda. Levanta ambas piernas a una altura de 45 cm. Continúa este movimiento de contracción y extensión con respiración poderosa." },
+                    { number: 4, name: "Plataforma de frente", baseTime: 180, instructions: "Tiéndete boca abajo. Coloca las manos debajo de los hombros y levanta el cuerpo hasta que los codos queden fijos. El cuerpo forma una línea recta." },
+                    { number: 5, name: "Postura de estiramiento", baseTime: 180, instructions: "Tiéndete boca arriba, empuja la base de la columna hacia el suelo, junta los pies y levanta los talones 15 cm. Haz respiración de fuego de 1 a 3 minutos." },
+                    { number: 6, name: "Estiramiento del centro del corazón para la sanación", baseTime: 300, instructions: "Siéntate en postura fácil. Extiende los brazos a un ángulo de 60 grados. Este ejercicio trae una concentración mental y física a las manos, y abre el centro del corazón." },
+                    { number: 7, name: "Meditación", baseTime: 600, instructions: "Regresa a una posición con las piernas cruzadas. Medita." },
+                    { number: 8, name: "Relajación profunda", baseTime: 600, instructions: "Relájate profundamente." }
+                ]
+            },
+            {
+                id: "surya-namaskara",
+                title: "Surya Namaskara",
+                subtitle: "El Saludo al Sol",
+                description: "Cuando Yogi Bhajan estaba estudiando con su Maestro, el saludo al sol se utilizaba como un ejercicio de calentamiento antes de iniciar los kriyas de Kundalini Yoga.",
+                benefits: ["Calentamiento completo", "Incrementa la circulación", "Estira y flexiona la columna"],
+                exercises: [
+                    { number: 1, name: "De pie y erguido (Amasthiti)", baseTime: 30, instructions: "Ponte de pie con la columna recta y los pies juntos. Los dedos gordos de los pies y los talones se tocan. Distribuye el peso entre los dos pies, uniformemente." },
+                    { number: 2, name: "Estírate hacia arriba", baseTime: 30, instructions: "Inhala, lleva tus brazos por encima de tu cabeza con las palmas juntas. Elonga la columna; eleva el pecho y relaja tus hombros." },
+                    { number: 3, name: "Inclinación hacia el frente (Uttanasana)", baseTime: 30, instructions: "Exhala y dobla tu torso hacia delante. Mantén tu columna recta, alargándola como si fueras a alcanzar la parte delantera con el tope de la cabeza." },
+                    { number: 4, name: "Inhala y sube la cabeza", baseTime: 30, instructions: "Inhala, sube la cabeza, endereza la columna y mantén las manos o las yemas de los dedos en el suelo. Fija la mirada en el tercer ojo." },
+                    { number: 5, name: "Chaturanga Dandasana", baseTime: 30, instructions: "Exhala y dobla las rodillas, salta o da un paso hacia atrás para que las piernas queden rectas. Equilíbrate sobre la punta de los dedos de los pies." },
+                    { number: 6, name: "Postura de cobra (Bhujangasana)", baseTime: 30, instructions: "De esta posición, inhala, endereza los codos y arquea la espalda. Estira a través de la parte superior de la columna." },
+                    { number: 7, name: "Postura de triángulo (Adho mukha svanasana)", baseTime: 30, instructions: "Exhala, eleva las caderas para que el cuerpo quede equilibrado en una figura de 'V' invertida. Mira fijamente hacia el ombligo." },
+                    { number: 8, name: "Inhala y salta adelante", baseTime: 30, instructions: "Inhala y salta o da un paso adelante hacia la posición núm. 4." },
+                    { number: 9, name: "Inclinación hacia el frente (Uttanasana)", baseTime: 30, instructions: "Exhala y dóblate hacia delante, hacia la posición núm. 3." },
+                    { number: 10, name: "Estírate hacia arriba", baseTime: 30, instructions: "Inhala y sube completamente hacia la posición núm. 2." },
+                    { number: 11, name: "De pie y erguido (Amasthiti)", baseTime: 30, instructions: "Exhala y regresa a la posición inicial." },
+                    { number: 12, name: "Relajación", baseTime: 120, instructions: "Descansa brevemente antes de la siguiente ronda. Comienza por practicar tres rondas y, luego, gradualmente, incrementa a cinco o seis." }
+                ]
+            },
+            {
+                id: "sat-kriya",
+                title: "Sat Kriya",
+                subtitle: "El kriya fundamental de Kundalini Yoga",
+                description: "Sat Kriya es fundamental para Kundalini Yoga y debe ser practicado todos los días durante al menos 3 minutos. Sus efectos son numerosos.",
+                benefits: ["Circula la energía kundalini", "Fortalece el sistema sexual", "Mejora la digestión"],
+                exercises: [
+                    { number: 1, name: "Sat Kriya - Posición", baseTime: 180, instructions: "Siéntate sobre los talones con los brazos por encima de la cabeza y las palmas juntas. Entrelaza los dedos, excepto los dedos índice, los cuales apuntan hacia arriba. Canta SAT y mete el punto del ombligo, canta NAAM y relájalo." },
+                    { number: 2, name: "Sat Kriya - Práctica completa", baseTime: 180, instructions: "Continúa durante al menos 3 minutos. Luego, inhala, aplica la cerradura de raíz (mulbandh) y aprieta los músculos fuertemente desde los glúteos hasta los hombros." },
+                    { number: 3, name: "Relajación profunda", baseTime: 900, instructions: "Relájate completamente boca arriba durante 15 minutos. Es importante tener una relajación larga y profunda inmediatamente después de Sat Kriya." }
+                ]
+            }
+        ];
+        
+        // ============================================
+        // CITAS ESPIRITUALES (Para descansos)
+        // ============================================
+        const spiritualQuotes = [
+            "La actitud de gratitud es el yoga más alto.",
+            "Viaja ligero, vive ligero, esparce la luz, sé la luz.",
+            "Si no puedes ver a Dios en todo, no puedes ver a Dios en nada.",
+            "No es la vida lo que importa, sino el coraje que le pones.",
+            "Entiende a través de la compasión o malentenderás los tiempos.",
+            "Reconoce que la otra persona eres tú.",
+            "Cuando no conoces la quietud, no conoces la paz.",
+            "La felicidad es tu derecho de nacimiento.",
+            "La mente es un sirviente maravilloso, pero un amo terrible.",
+            "Siente la vibración del infinito en cada célula.",
+            "Inhala Sat, Exhala Nam. Verdad es mi identidad.",
+            "Mantén la calma y deja que el universo te sirva.",
+            "Tu respiración es la voz de tu alma."
+        ];
+
+        // ============================================
+        // VARIABLES GLOBALES
+        // ============================================
+        let currentKriya = null;
+        let currentLevel = null;
+        let currentExerciseIndex = 0;
+        let timerInterval = null;
+        let timeRemaining = 0;
+        let totalTime = 0;
+        let isPaused = false;
+        let isRunning = false;
+        let isResting = false; // Nueva variable para controlar estado de descanso
+        let sessionStartTime = null;
+
+        // Configuración de niveles (ACTUALIZADA con tiempos de descanso)
+        const levelConfig = {
+            principiante: { 
+                factor: 0.33, 
+                label: "Principiante", 
+                restTime: 60 // 1 minuto
+            },
+            intermedio: { 
+                factor: 0.50, 
+                label: "Intermedio", 
+                restTime: 90 // 1 minuto 30 segundos
+            },
+            experto: { 
+                factor: 1.00, 
+                label: "Experto", 
+                restTime: 120 // 2 minutos
+            }
+        };
+
+        // ============================================
+        // SONIDOS ESPIRITUALES
+        // ============================================
+        function playStartSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+                
+                const frequencies = [180, 270, 360];
+                const gains = [0.25, 0.15, 0.1];
+                
+                frequencies.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    
+                    osc.frequency.value = freq;
+                    osc.type = 'sine';
+                    
+                    gain.gain.setValueAtTime(0, ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(gains[i], ctx.currentTime + 0.5);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 3);
+                    
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 3);
+                });
+            } catch (e) {
+                console.log('Audio no disponible');
+            }
+        }
+
+        function playEndSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+                
+                const frequencies = [360, 270, 180, 135];
+                const gains = [0.2, 0.15, 0.25, 0.1];
+                
+                frequencies.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    
+                    osc.frequency.value = freq;
+                    osc.type = i === 3 ? 'triangle' : 'sine';
+                    
+                    const delay = i * 0.1;
+                    gain.gain.setValueAtTime(0, ctx.currentTime + delay);
+                    gain.gain.linearRampToValueAtTime(gains[i], ctx.currentTime + delay + 0.3);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 4);
+                    
+                    osc.start(ctx.currentTime + delay);
+                    osc.stop(ctx.currentTime + delay + 4);
+                });
+            } catch (e) {
+                console.log('Audio no disponible');
+            }
+        }
+
+        // ============================================
+        // DROPDOWN MENU
+        // ============================================
+        function toggleDropdown() {
+            const menu = document.getElementById('kriyaDropdownMenu');
+            if (menu.classList.contains('hidden-dropdown')) {
+                menu.classList.remove('hidden-dropdown');
+                menu.classList.add('visible-dropdown');
+            } else {
+                menu.classList.add('hidden-dropdown');
+                menu.classList.remove('visible-dropdown');
+            }
+        }
+
+        function closeDropdown() {
+            const menu = document.getElementById('kriyaDropdownMenu');
+            menu.classList.add('hidden-dropdown');
+            menu.classList.remove('visible-dropdown');
+        }
+
+        function renderDropdownMenu() {
+            const list = document.getElementById('dropdownKriyaList');
+            list.innerHTML = kriyasDB.map(kriya => `
+                <button onclick="selectKriyaFromDropdown('${kriya.id}')" 
+                    class="w-full text-left px-4 py-3 rounded-lg hover:bg-violet-100 transition flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center text-white text-xs font-bold">
+                        ${kriya.exercises.length}
+                    </div>
+                    <div>
+                        <p class="font-medium text-violet-900 text-sm">${kriya.title}</p>
+                        <p class="text-xs text-violet-500">${kriya.subtitle}</p>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        function selectKriyaFromDropdown(kriyaId) {
+            closeDropdown();
+            showLevelSelection(kriyaId);
+        }
+
+        document.addEventListener('click', (e) => {
+            const container = document.getElementById('kriyaDropdownContainer');
+            if (container && !container.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+
+        // ============================================
+        // NAVEGACIÓN ENTRE VISTAS
+        // ============================================
+        function showView(viewId) {
+            ['mainMenuView', 'levelSelectionView', 'kriyaPracticeView', 'completionView'].forEach(id => {
+                document.getElementById(id).classList.add('hidden-view');
+            });
+            document.getElementById(viewId).classList.remove('hidden-view');
+        }
+
+        function showMainMenu() {
+            stopTimer();
+            currentKriya = null;
+            currentLevel = null;
+            currentExerciseIndex = 0;
+            isRunning = false;
+            isResting = false;
+            showView('mainMenuView');
+            renderKriyasGrid();
+        }
+
+        function showLevelSelection(kriyaId) {
+            currentKriya = kriyasDB.find(k => k.id === kriyaId);
+            document.getElementById('selectedKriyaTitle').textContent = currentKriya.title;
+            showView('levelSelectionView');
+        }
+
+        function selectLevel(level) {
+            currentLevel = level;
+            currentExerciseIndex = 0;
+            sessionStartTime = new Date();
+            isRunning = true;
+            isResting = false;
+            showView('kriyaPracticeView');
+            loadExercise();
+            // Auto-start first exercise
+            setTimeout(() => startExercise(), 500);
+        }
+
+        // ============================================
+        // RENDERIZADO
+        // ============================================
+        function renderKriyasGrid(filter = '') {
+            const grid = document.getElementById('kriyasGrid');
+            const filteredKriyas = kriyasDB.filter(k => 
+                k.title.toLowerCase().includes(filter.toLowerCase()) ||
+                k.subtitle.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            grid.innerHTML = filteredKriyas.map(kriya => `
+                <div class="kriya-card glass-card rounded-2xl p-6 cursor-pointer" onclick="showLevelSelection('${kriya.id}')">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
+                            ${kriya.exercises.length}
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-violet-100 text-violet-700 text-xs font-medium">
+                            ${Math.ceil(kriya.exercises.reduce((acc, e) => acc + e.baseTime, 0) / 60)} min
+                        </span>
+                    </div>
+                    <h3 class="title-font text-xl font-bold text-violet-900 mb-2">${kriya.title}</h3>
+                    <p class="text-violet-600 text-sm mb-3">${kriya.subtitle}</p>
+                    <p class="text-violet-500 text-xs line-clamp-2">${kriya.description}</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        ${kriya.benefits.slice(0, 2).map(b => `
+                            <span class="px-2 py-1 rounded-md bg-amber-100 text-amber-700 text-xs">${b}</span>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadExercise() {
+            // Asegurarse de que no estamos en modo descanso
+            isResting = false;
+            document.getElementById('timerCard').classList.remove('rest-mode');
+            document.getElementById('restIndicator').classList.add('hidden-view');
+            
+            const exercise = currentKriya.exercises[currentExerciseIndex];
+            const config = levelConfig[currentLevel];
+            
+            // Calcular tiempo ajustado
+            const adjustedTime = Math.round(exercise.baseTime * config.factor);
+            timeRemaining = adjustedTime;
+            totalTime = adjustedTime;
+            
+            // Actualizar UI General
+            document.getElementById('currentExerciseNum').textContent = currentExerciseIndex + 1;
+            document.getElementById('totalExercises').textContent = currentKriya.exercises.length;
+            document.getElementById('levelIndicator').textContent = `Nivel: ${config.label}`;
+            
+            // Info Ejercicio
+            document.getElementById('exerciseNumber').textContent = exercise.number;
+            document.getElementById('exerciseName').textContent = exercise.name;
+            document.getElementById('exerciseTime').textContent = formatTime(adjustedTime);
+            document.getElementById('exerciseInstructions').textContent = exercise.instructions;
+            
+            // IMPORTANTE: Texto dinámico debajo del reloj con el NOMBRE DEL EJERCICIO
+            const statusText = document.getElementById('activeStatusText');
+            statusText.textContent = exercise.name;
+            statusText.classList.remove('rest-quote'); // Quitar estilo de cita si lo tiene
+            
+            // Actualizar barra de progreso
+            const progress = ((currentExerciseIndex) / currentKriya.exercises.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            
+            // Actualizar timer display
+            updateTimerDisplay();
+            
+            // Resetear controles UI
+            isPaused = false;
+            document.getElementById('btnStart').disabled = false;
+            document.getElementById('btnStart').classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('btnStart').innerHTML = `
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="text-sm">INICIAR</span>
+            `;
+            document.getElementById('btnPause').disabled = true;
+            document.getElementById('btnPause').classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('timerStatus').textContent = 'Listo';
+            
+            // Renderizar lista de ejercicios
+            renderExerciseList();
+        }
+        
+        function startRestPeriod() {
+            isResting = true;
+            
+            // Configurar tiempo de descanso según nivel
+            const config = levelConfig[currentLevel];
+            timeRemaining = config.restTime;
+            totalTime = config.restTime;
+            
+            // Actualizar UI para Modo Descanso
+            document.getElementById('timerCard').classList.add('rest-mode');
+            document.getElementById('restIndicator').classList.remove('hidden-view');
+            
+            // Cambiar info principal para indicar descanso
+            document.getElementById('exerciseName').textContent = "Integración";
+            document.getElementById('exerciseInstructions').textContent = "Relaja la postura, cierra los ojos y respira profundamente. Permite que la energía del ejercicio se integre en tu cuerpo.";
+            document.getElementById('exerciseTime').textContent = formatTime(timeRemaining);
+            
+            // Seleccionar frase espiritual aleatoria
+            const randomQuote = spiritualQuotes[Math.floor(Math.random() * spiritualQuotes.length)];
+            const statusText = document.getElementById('activeStatusText');
+            statusText.textContent = `"${randomQuote}"`;
+            statusText.classList.add('rest-quote');
+            
+            document.getElementById('timerStatus').textContent = 'Descansando...';
+            updateTimerDisplay();
+            
+            // Iniciar el temporizador de descanso automáticamente
+            startTimerInterval();
+        }
+
+        function renderExerciseList() {
+            const list = document.getElementById('exerciseList');
+            const config = levelConfig[currentLevel];
+            
+            list.innerHTML = currentKriya.exercises.map((ex, idx) => {
+                const adjustedTime = Math.round(ex.baseTime * config.factor);
+                const isCurrent = idx === currentExerciseIndex;
+                const isCompleted = idx < currentExerciseIndex;
+                
+                return `
+                    <div class="flex items-center gap-3 p-3 rounded-lg ${isCurrent ? 'bg-violet-100 border-2 border-violet-300' : isCompleted ? 'bg-green-50' : 'bg-gray-50'}">
+                        <div class="w-6 h-6 rounded-full ${isCompleted ? 'bg-green-500' : isCurrent ? 'bg-violet-500 animate-pulse' : 'bg-gray-300'} flex items-center justify-center text-white text-xs font-bold">
+                            ${isCompleted ? '✓' : ex.number}
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium ${isCurrent ? 'text-violet-900' : 'text-gray-700'}">${ex.name}</p>
+                        </div>
+                        <span class="text-xs ${isCurrent ? 'text-violet-600 font-medium' : 'text-gray-500'}">${formatTime(adjustedTime)}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            if (list.children[currentExerciseIndex]) {
+                list.children[currentExerciseIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // ============================================
+        // TEMPORIZADOR
+        // ============================================
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimerDisplay() {
+            document.getElementById('timerDisplay').textContent = formatTime(timeRemaining);
+            
+            // Actualizar círculo de progreso
+            const circle = document.getElementById('timerCircle');
+            const circumference = 415;
+            const progress = timeRemaining / totalTime;
+            const offset = circumference - (progress * circumference);
+            circle.style.strokeDashoffset = offset;
+        }
+
+        function startExercise() {
+            if (!isResting) {
+                if (isPaused) {
+                    isPaused = false;
+                    document.getElementById('timerStatus').textContent = 'En progreso...';
+                } else {
+                    playStartSound();
+                    document.getElementById('timerStatus').textContent = 'En progreso...';
+                }
+                
+                // Actualizar botones UI
+                document.getElementById('btnStart').disabled = true;
+                document.getElementById('btnStart').classList.add('opacity-50', 'cursor-not-allowed');
+                document.getElementById('btnPause').disabled = false;
+                document.getElementById('btnPause').classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+            
+            startTimerInterval();
+        }
+        
+        function startTimerInterval() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                if (timeRemaining > 0) {
+                    timeRemaining--;
+                    updateTimerDisplay();
+                } else {
+                    // El tiempo se acabó
+                    if (isResting) {
+                        finishRest();
+                    } else {
+                        finishExercise();
+                    }
+                }
+            }, 1000);
+        }
+
+        function pauseExercise() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                isPaused = true;
+                document.getElementById('timerStatus').textContent = 'Pausado';
+                document.getElementById('btnStart').disabled = false;
+                document.getElementById('btnStart').classList.remove('opacity-50', 'cursor-not-allowed');
+                document.getElementById('btnStart').innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="text-sm">REANUDAR</span>
+                `;
+                document.getElementById('btnPause').disabled = true;
+                document.getElementById('btnPause').classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function finishExercise() {
+            stopTimer();
+            playEndSound();
+            
+            // Verificar si hay más ejercicios
+            if (currentExerciseIndex < currentKriya.exercises.length - 1) {
+                // Iniciar PERIODO DE DESCANSO antes del siguiente ejercicio
+                startRestPeriod();
+            } else {
+                showCompletion();
+            }
+        }
+        
+        function finishRest() {
+            stopTimer();
+            // Fin del descanso, pasar al siguiente ejercicio
+            playStartSound(); // Sonido suave para despertar del descanso
+            currentExerciseIndex++;
+            loadExercise();
+            startExercise(); // Auto-start next exercise
+        }
+
+        function showCompletion() {
+            stopTimer();
+            isRunning = false;
+            showView('completionView');
+            
+            const config = levelConfig[currentLevel];
+            const totalExercises = currentKriya.exercises.length;
+            const totalMinutes = Math.round(
+                currentKriya.exercises.reduce((acc, e) => acc + e.baseTime * config.factor, 0) / 60
+            );
+            
+            document.getElementById('summaryKriya').textContent = currentKriya.title;
+            document.getElementById('summaryLevel').textContent = config.label;
+            document.getElementById('summaryExercises').textContent = `${totalExercises} ejercicios`;
+            document.getElementById('summaryTime').textContent = `${totalMinutes} minutos`;
+        }
+
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            renderKriyasGrid();
+            renderDropdownMenu();
+            
+            // Buscador
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                renderKriyasGrid(e.target.value);
+            });
+        });
+    </script>
+</body>
+</html>
